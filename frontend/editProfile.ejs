@@ -27,30 +27,30 @@
     </nav>
     <h1 class="text-center mt-3">Add new Student</h1>
     <div class="container my-5">
-        <form action="/api/students/add" enctype='multipart/form-data' method="POST">
+        <form action="/api/students/update/<%- student._id %>" enctype='multipart/form-data' method="POST">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" value=<%- student.name%> />
+                <input type="text" name="name" class="form-control" id="name" value=<%- student.name%> />
             </div>
 
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" value=<%- student.email%> />
+                <input type="email" name="email" class="form-control" id="email" value=<%- student.email%> />
             </div>
 
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="tel" class="form-control" id="phone" value=<%- student.phone%> />
+                <input type="tel" name="phone" class="form-control" id="phone" value=<%- student.phone%> />
             </div>
 
             <div class="form-group">
                 <label for="degree">degree</label>
-                <input type="text" class="form-control" id="degree" value=<%- student.degree%> />
+                <input type="text" name="degree" class="form-control" id="degree" value=<%- student.degree%> />
             </div>
 
             <div class="form-group">
                 <label for="photo">Upload image</label>
-                <input type="file" name="photo" class="form-control" id="photo" />
+                <input type="file" name="photo" name="photo" class="form-control" id="photo" />
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>

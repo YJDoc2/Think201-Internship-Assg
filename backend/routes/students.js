@@ -22,6 +22,49 @@ router.get('/edit/:id', async (req, res) => {
   res.render("editProfile", { student: student });
 });
 
+
+/** POST /api/students/update/id
+ * Updates information of the student
+ * params : all are optional
+ * name : string
+ * email : string
+ * phone : Number
+ * degree : String
+ * photo : image
+ */
+router.post('/update/:id', async (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      res.status(400).send({
+        success: false,
+        err: err.message,
+      });
+    } else {
+      if (req.file === undefined) {
+        try {
+          console.log(req.body);
+          let temp = await Student.findByIdAndUpdate(req.params.id, req.body);
+          res.redirect('/');
+        } catch (err) {
+          console.log(err);
+          res.status(400).send(JSON.stringify(err));
+        }
+      } else {
+        try {
+          let temp = await Student.findByIdAndUpdate(req.params.id, {
+            ...req.body,
+            photoUID: req.file.filename,
+          });
+          res.redirect('/');
+        } catch (err) {
+          console.log(err);
+          res.status(400).send(JSON.stringify(err));
+        }
+      }
+    }
+  });
+})
+
 /**POST /api/students/add
  * creates new student in DB as well as store the uploaded files
  * Required Params :
