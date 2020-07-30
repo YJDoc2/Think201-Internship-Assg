@@ -12,8 +12,8 @@ const StudentSchema = mongoose.Schema({
   },
   email: {
     type: String,
-    unique: true,
-    required: true,
+    unique: [true, "This email is already registered"],
+    required: [true, "Email is required"],
     trim: true,
     lowercase: true,
     validate(value) {
@@ -24,6 +24,7 @@ const StudentSchema = mongoose.Schema({
   },
   phone: {
     type: Number,
+    required: [true, "Phone number is a required field"],
     validate: {
       validator: (num) => {
         return num > 999999999 && num <= 9999999999;
@@ -32,9 +33,11 @@ const StudentSchema = mongoose.Schema({
     }
   },
   photoUID: {
+    required: [true, "Image is required"],
     type: String,
   },
   degree: {
+    required: [true, "Degree is a required field"],
     type: String,
   },
 });

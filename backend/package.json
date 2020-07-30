@@ -1,10 +1,11 @@
 {
-  "name": "think201-assg",
+  "name": "think201-assg-backend",
   "version": "1.0.0",
-  "description": "Tech assignment for Think201 internship",
+  "description": "Tech assignment for Think201 internship backend",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index"
+    "start": "node index",
+    "dev": "nodemon index"
   },
   "author": "YJ",
   "license": "MIT",

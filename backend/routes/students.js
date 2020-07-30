@@ -10,7 +10,7 @@ const upload = require('../util/storage');
 */
 router.get('/list', async (req, res) => {
   let students = await Student.find({});
-  res.render('./studentList', { students: students });
+  return res.render('./studentList', { students: students });
 });
 
 /** GET /api/students/edit/id
@@ -19,7 +19,7 @@ router.get('/list', async (req, res) => {
  */
 router.get('/edit/:id', async (req, res) => {
   let student = await Student.findById(req.params.id);
-  res.render("editProfile", { student: student });
+  return res.render("editProfile", { student: student });
 });
 
 
@@ -35,22 +35,21 @@ router.get('/edit/:id', async (req, res) => {
 router.post('/update/:id', async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      res.status(400).send({
-        success: false,
-        err: err.message,
-      });
+      return res.render('./error', { err: err.message })
     } else {
       if (req.file === undefined) {
+        // The image is not to be updated
         try {
-          console.log(req.body);
           let temp = await Student.findByIdAndUpdate(req.params.id, req.body);
           res.redirect('/');
         } catch (err) {
           console.log(err);
-          res.status(400).send(JSON.stringify(err));
+          return res.render('./error', { err: err.message })
+
         }
       } else {
         try {
+          // image as well as some other params are to be updated
           let temp = await Student.findByIdAndUpdate(req.params.id, {
             ...req.body,
             photoUID: req.file.filename,
@@ -58,7 +57,7 @@ router.post('/update/:id', async (req, res) => {
           res.redirect('/');
         } catch (err) {
           console.log(err);
-          res.status(400).send(JSON.stringify(err));
+          return res.render('./error', { err: err.message })
         }
       }
     }
@@ -79,16 +78,10 @@ router.post('/update/:id', async (req, res) => {
 router.post('/add', async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      res.status(400).send({
-        success: false,
-        err: err.message,
-      });
+      return res.render('./error', { err: err.message })
     } else {
       if (req.file === undefined) {
-        res.status(400).send({
-          success: false,
-          err: 'No File selected',
-        });
+        res.render('./error', { err: "No Image selected" })
       } else {
         try {
           let temp = await Student.create({
@@ -101,17 +94,27 @@ router.post('/add', async (req, res) => {
           res.redirect('/');
         } catch (err) {
           console.log(err);
-          res.status(400).send(JSON.stringify(err));
+          res.render('./error', {
+            err: err.code === 11000 ? "The Email is already registered" : err.message
+          })
         }
       }
     }
   });
 });
 
+/** POST /api/students/search
+ * Search for the students in the list as specified by query
+ * Params : 
+ * type : String : type to search in can be name, email,degree, phone
+ * data : String : this is used as regex in case of name email degree, and searched as exact string in phone
+ * 
+ * renders the same view as student list but with data only matching to search query
+ */
 router.post('/search', async (req, res) => {
-  console.log(req.body);
   const { type, data } = req.body;
   let results = {};
+  // search in specified field as per type
   if (type === 'name') {
     results = await Student.find({ name: { $regex: data, $options: "i" } });
   } else if (type == 'email') {
@@ -121,6 +124,8 @@ router.post('/search', async (req, res) => {
   } else if (type === 'phone') {
     results = await Student.find({ phone: req.body.data });
   }
+
+  // render the found data in student list view
   return res.render('./studentList', { students: results });
 });
 

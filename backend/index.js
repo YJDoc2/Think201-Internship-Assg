@@ -12,6 +12,7 @@ const EXPRESS_PORT = process.env.PORT || 8000;
 
 useNewUrlParser: true,
   mongoose.connect(mongoCfg.db, {
+    useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
   });

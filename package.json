@@ -1,0 +1,10 @@
+{
+  "name": "think201-assg",
+  "version": "1.0.0",
+  "description": "Tech assignment for Think201 internship website",
+  "scripts": {
+    "start": "cd ./backend && npm start"
+  },
+  "author": "YJ",
+  "license": "MIT"
+}

@@ -26,13 +26,14 @@
       </div>
     </div>
   </nav>
-  <div class="container">
+  <div class="container mt-2">
     <form action="/api/students/search" method="POST">
       <div class="form-group">
+        <label for="data">Query</label>
         <input type="text" name="data" class="form-control mt-3" id="data" />
       </div>
       <div class="form-group">
-        <label for="type">Name</label>
+        <label for="type">Field</label>
         <select id="type" name="type" class="form-control">
           <option>name</option>
           <option>email</option>
@@ -49,13 +50,15 @@
     <%if(students.length>0){%>
     <ul class="list-group my-3">
       <% students.forEach((student)=>{%>
-      <li class="list-group-item">
+      <li class="list-group-item m-3">
         <%- include('./studentInfo',{student:student}) %>
       </li>
       <% })%>
     </ul>
     <%}%>
     </div>
+
+    
     <!--Bootstrap JS links-->
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

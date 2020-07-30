@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const mongoCfg = require('../config/db');
 const Grid = require('gridfs-stream');
 
-// As the Grid-fs API is broken compared to the MongoDB , this is a hack to get it working and access files
+// As the Grid-fs API is broken wrto to the MongoDB , this is a hack to get it working and access files
+// without this we cannot retrieve the images saved in the DB and the server will exit with error
 eval(
     `Grid.prototype.findOne = ${Grid.prototype.findOne
         .toString()
@@ -37,14 +38,15 @@ conn.once('open', () => {
  * filename : file name of the file that is to be retrieved
  */
 router.get('/:filename', (req, res) => {
+    // find the file as per filename
     gfs.findOne({ filename: req.params.filename }, (err, file) => {
-        // Check if file
+        // Check if file is exiting
         if (!file || file.length === 0) {
-            return res.status(404).send({
-                err: 'No file exists'
+            return res.render('./error', {
+                err: 'Error in retrieving Student Image'
             });
         }
-
+        // create a stream and pipe the file data in the stream
         const readstream = gfs.createReadStream(file.filename);
         readstream.pipe(res);
     });
