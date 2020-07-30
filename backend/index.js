@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
 
 // set up routes
 app.use('/api/students', require('./routes/students'));
-
+app.use('/api/images', require('./routes/image'));
 // start server
 app.listen(EXPRESS_PORT, () => {
   console.log(`Express listening on Port ${EXPRESS_PORT}...`);

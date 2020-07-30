@@ -1,5 +1,5 @@
 <div class="container chatline">
-  <img />
+  <img src="/api/images/<%- student.photoUID %>" alt="student image" width="100px" height="100px" />
   <!--TODO-->
   <h3 style="display: inline;"><%= student.name %></h3>
   <div>
@@ -7,5 +7,5 @@
     phone : <%= student.phone %><br />
     degree : <%= student.degree %><br />
   </div>
-  <a class="btn btn-primary" href="/api/students/edit/<%- student._id %>"">Edit Profile</a>
+  <a class=" btn btn-primary" href="/api/students/edit/<%- student._id %>"">Edit Profile</a>
 </div>
