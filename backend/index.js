@@ -6,14 +6,15 @@ const mongoCfg = require('./config/db');
 //const session = require('express-session'); //TODO
 //const passport = require('passport'); //TODO
 
+
 const app = express();
 const EXPRESS_PORT = process.env.PORT || 8000;
 
-mongoose.connect(mongoCfg.db, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-});
+useNewUrlParser: true,
+  mongoose.connect(mongoCfg.db, {
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  });
 
 let db = mongoose.connection;
 
@@ -31,8 +32,8 @@ db.once('open', () => {
 });
 
 // Body Parser Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // EJS engine
 app.set('views', path.join(__dirname, '..', 'frontend'));
