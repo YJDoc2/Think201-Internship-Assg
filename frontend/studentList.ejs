@@ -27,6 +27,25 @@
     </div>
   </nav>
   <div class="container">
+    <form action="/api/students/search" method="POST">
+      <div class="form-group">
+        <input type="text" name="data" class="form-control mt-3" id="data" />
+      </div>
+      <div class="form-group">
+        <label for="type">Name</label>
+        <select id="type" name="type" class="form-control">
+          <option>name</option>
+          <option>email</option>
+          <option>phone</option>
+          <option>degree</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+
+  <!--List using ejs-->
+  <div class="container">
     <%if(students.length>0){%>
     <ul class="list-group my-3">
       <% students.forEach((student)=>{%>

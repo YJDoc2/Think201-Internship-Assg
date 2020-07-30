@@ -108,4 +108,23 @@ router.post('/add', async (req, res) => {
   });
 });
 
+router.post('/search', async (req, res) => {
+  console.log(req.body);
+  const { type, data } = req.body;
+  let results = {};
+  if (type === 'name') {
+    results = await Student.find({ name: { $regex: data, $options: "i" } });
+  } else if (type == 'email') {
+    results = await Student.find({ email: { $regex: data, $options: "i" } });
+  } else if (type === 'degree') {
+    results = await Student.find({ degree: { $regex: data, $options: "i" } });
+  } else if (type === 'phone') {
+    results = await Student.find({ phone: req.body.data });
+  }
+  return res.render('./studentList', { students: results });
+});
+
+
+
+
 module.exports = router;

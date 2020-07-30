@@ -23,7 +23,13 @@ const StudentSchema = mongoose.Schema({
     },
   },
   phone: {
-    type: Number, //TODO
+    type: Number,
+    validate: {
+      validator: (num) => {
+        return num > 999999999 && num <= 9999999999;
+      },
+      message: 'Not a valid phone number'
+    }
   },
   photoUID: {
     type: String,
