@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 const AdminSchema = mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
       required: [true, 'Admin Account needs a name'],
       unique: [true, 'This Admin already exists'],

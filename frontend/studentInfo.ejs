@@ -6,5 +6,7 @@
     phone : <%= student.phone %><br />
     degree : <%= student.degree %><br />
   </div>
+  <% if(admin) { %>
   <a class=" btn btn-primary" href="/api/students/edit/<%- student._id %>"">Edit Profile</a>
+  <%}%>
 </div>

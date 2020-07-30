@@ -3,9 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const mongoCfg = require('./config/db');
-//const session = require('express-session'); //TODO
-//const passport = require('passport'); //TODO
-const busboy = require('connect-busboy');
+const session = require('express-session');
+const passport = require('passport');
 
 const app = express();
 const EXPRESS_PORT = process.env.PORT || 8000;
@@ -33,6 +32,28 @@ db.once('open', () => {
 });
 
 
+// Sessions and Passport Initialisations
+app.use(
+  session({
+    secret: 'Secrete',
+    resave: true,
+    saveUninitialized: false,
+    ephemeral: true
+  })
+);
+
+// Passport Config
+require('./config/passport')(passport);
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Set user in every request
+app.get('*', function (req, res, next) {
+  res.locals.user = req.user || null;
+  next();
+});
+
 // Body Parser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -50,6 +71,8 @@ app.get('/', (req, res) => {
 // set up routes
 app.use('/api/students', require('./routes/students'));
 app.use('/api/images', require('./routes/image'));
+app.use('/api/admin', require('./routes/admin'));
+
 // start server
 app.listen(EXPRESS_PORT, () => {
   console.log(`Express listening on Port ${EXPRESS_PORT}...`);

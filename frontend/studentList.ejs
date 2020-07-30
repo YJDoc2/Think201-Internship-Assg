@@ -51,7 +51,7 @@
     <ul class="list-group my-3">
       <% students.forEach((student)=>{%>
       <li class="list-group-item m-3">
-        <%- include('./studentInfo',{student:student}) %>
+        <%- include('./studentInfo',{student:student,admin:admin}) %>
       </li>
       <% })%>
     </ul>

@@ -10,7 +10,7 @@ const upload = require('../util/storage');
 */
 router.get('/list', async (req, res) => {
   let students = await Student.find({});
-  return res.render('./studentList', { students: students });
+  return res.render('./studentList', { students: students, admin: req.user });
 });
 
 /** GET /api/students/edit/id
@@ -18,6 +18,9 @@ router.get('/list', async (req, res) => {
  * 
  */
 router.get('/edit/:id', async (req, res) => {
+  if (!req.user) {
+    return res.render('error', { err: "Only admins an edit the info" });
+  }
   let student = await Student.findById(req.params.id);
   return res.render("editProfile", { student: student });
 });
@@ -33,6 +36,9 @@ router.get('/edit/:id', async (req, res) => {
  * photo : image
  */
 router.post('/update/:id', async (req, res) => {
+  if (!req.user) {
+    return res.render('error', { err: "Only admins an edit the info" });
+  }
   upload(req, res, async (err) => {
     if (err) {
       return res.render('./error', { err: err.message })
