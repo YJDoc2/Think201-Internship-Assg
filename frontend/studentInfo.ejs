@@ -1,0 +1,10 @@
+<div class="container chatline">
+  <img /><!--TODO-->
+  <h3 style="display: inline;"><%= student.name %></h3>
+  <div>
+    email : <%= student.email %><br />
+    phone : <%= student.phone %><br />
+    degree : <%= student.degree %><br />
+  </div>
+  <a class="btn btn-primary" href="/edit/" <%- student._id %> >Edit Profile</a>
+</div>
